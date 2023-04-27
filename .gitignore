@@ -1,0 +1,11 @@
+/node_modules/
+/public/
+/src/
+/.gitignore
+/package.json
+/package-lock.json
+/.idea/.gitignore
+/.idea/hotel-customer-relationship.iml
+/.idea/modules.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/vcs.xml

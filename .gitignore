@@ -1,6 +1,5 @@
 /node_modules/
 /public/
-/src/
 /.gitignore
 /package.json
 /package-lock.json

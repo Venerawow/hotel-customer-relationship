@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import MainLayout from './MainLayout';
-import AuthPage from '../pages/AuthPage/AuthPage';
-import { getIsAuthorized } from '../store/selectors/usersSelectors';
-import { getNotificationData } from '../store/selectors/notificationsSelectors';
-import { getAccounts, logIn } from '../store/actions/usersActions';
-import { clearNotifications } from '../store/actions/notificationsActions';
+import MainLayout from '../MainLayout';
+import AuthPage from '../../pages/AuthPage/AuthPage';
+import { getIsAuthorized } from '../../store/selectors/usersSelectors';
+import { getNotificationData } from '../../store/selectors/notificationsSelectors';
+import { getAccounts, logIn } from '../../store/actions/usersActions';
+import { clearNotifications } from '../../store/actions/notificationsActions';
 
 const Wrapper = () => {
     const isAuthorized = useSelector(getIsAuthorized);

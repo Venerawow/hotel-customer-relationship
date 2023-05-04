@@ -2,18 +2,27 @@ import React from 'react';
 import { Button, Layout, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { getAuthUser } from '../../store/selectors/usersSelectors';
 import { logOut } from '../../store/actions/usersActions';
 import './MainLayout.scss';
 
+const propTypes = {
+    children: PropTypes.node.isRequired,
+};
 const MainLayout = () => {
     const user = useSelector(getAuthUser);
     const dispatch = useDispatch();
 
+    const history = useHistory();
+
     const { Header, Content } = Layout;
     const { image, username } = user;
 
-    const handleLogOut = () => dispatch(logOut());
+    const handleLogOut = () => {
+        dispatch(logOut());
+        history.push('/login');
+    }
 
     return (
         <Layout className="main-layout">

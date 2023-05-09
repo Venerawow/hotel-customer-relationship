@@ -1,29 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { message } from 'antd';
+import { message, Spin } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import MainLayout from '../MainLayout';
-import AuthPage from '../../pages/AuthPage/AuthPage';
-import { getIsAuthorized } from '../../store/selectors/usersSelectors';
+import AuthPage from '../../pages/AuthPage';
+import { getAccountsState } from '../../store/selectors/usersSelectors';
 import { getNotificationData } from '../../store/selectors/notificationsSelectors';
 import { getAccounts, logIn } from '../../store/actions/usersActions';
 import { clearNotifications } from '../../store/actions/notificationsActions';
+import PrivateRoute from '../PrivateRoute';
+import RoomsTablePage from '../../pages/RoomsTablePage';
+import SingleRoomPage from '../../pages/SingleRoomPage';
+import './Wrapper.scss';
 
 const Wrapper = () => {
-    const isAuthorized = useSelector(getIsAuthorized);
     const notification = useSelector(getNotificationData);
+    const accounts = useSelector(getAccountsState);
     const dispatch = useDispatch();
 
-    useEffect(async () => {
-        await dispatch(getAccounts());
+    const isEmptyAccounts = useMemo(() => {
+        if (!accounts) return true;
+
+        return !Object.keys(accounts).length;
+    }, [accounts]);
+
+    useEffect(() => {
+        dispatch(getAccounts());
+    }, []);
+
+    useEffect(() => {
         const authData = localStorage.getItem('authData');
 
-        if (!authData) return;
+        if (isEmptyAccounts || !authData) return;
 
-        setTimeout(() => {
-            dispatch(logIn(JSON.parse(authData)));
-        }, 1000);
-    }, []);
+        dispatch(logIn(JSON.parse(authData)));
+    }, [accounts]);
 
     useEffect(() => {
         if (!notification) return;
@@ -35,9 +45,15 @@ const Wrapper = () => {
         }
     }, [notification]);
 
-    return (
+    return isEmptyAccounts ? (
+        <div className="loading-wrap">
+            <Spin size="large" />
+        </div>
+    ) : (
         <Switch>
-            <Route exact path="/" component={isAuthorized ? MainLayout : AuthPage} />
+            <Route exact path="/login" component={AuthPage} />
+            <PrivateRoute exact path="/" component={RoomsTablePage} />
+            <PrivateRoute exact to="/rooms?:roomId" component={SingleRoomPage} />
         </Switch>
     );
 };

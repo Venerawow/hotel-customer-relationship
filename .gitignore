@@ -1,10 +1,17 @@
+/.idea
 /node_modules/
 /public/
 /.gitignore
 /package.json
 /package-lock.json
+/.DS_Store
+/.env.local
+/.env.development.local
+/.env.test.local
+/.env.production.local
 /.idea/.gitignore
 /.idea/hotel-customer-relationship.iml
 /.idea/modules.xml
 /.idea/inspectionProfiles/Project_Default.xml
 /.idea/vcs.xml
+/src/firebase/config.js

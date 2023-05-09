@@ -6,15 +6,17 @@ import PropTypes from 'prop-types';
 import { getAuthUser } from '../../store/selectors/usersSelectors';
 import { logOut } from '../../store/actions/usersActions';
 import './MainLayout.scss';
+// import {useHistory} from "react-router-dom";
 
 const propTypes = {
     children: PropTypes.node.isRequired,
 };
-const MainLayout = () => {
+
+const MainLayout = ({ children }) => {
     const user = useSelector(getAuthUser);
     const dispatch = useDispatch();
 
-    const history = useHistory();
+     const history = useHistory();
 
     const { Header, Content } = Layout;
     const { image, username } = user;
@@ -22,7 +24,7 @@ const MainLayout = () => {
     const handleLogOut = () => {
         dispatch(logOut());
         history.push('/login');
-    }
+    };
 
     return (
         <Layout className="main-layout">
@@ -43,9 +45,11 @@ const MainLayout = () => {
                     </Button>
                 </div>
             </Header>
-            <Content>Content</Content>
+            <Content className="main-layout__content">{children}</Content>
         </Layout>
     );
 };
+
+MainLayout.propTypes = propTypes;
 
 export default MainLayout;
